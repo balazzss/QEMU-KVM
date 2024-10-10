@@ -4,6 +4,8 @@
 base_dir="/home/balazsverduyn"
 network_dir="$base_dir/network"
 launch_dir="$base_dir/launch_script"
+vm_dir="$base_dir/vm"
+iso_dir="base_dir/iso"
 
 # Fonction pour installer une VM
 install_vm() {
@@ -90,13 +92,44 @@ EOL
 
 remove_vm () {
     echo "Lancement de la suppression de la VM..."
-    image_name=$(whiptail --inputbox "Entrer le nom de l'image de la VM à supprimer :" 8 78 --title "Suppression de la VM" 3>&1 1>&2 2>&3)
-    sudo rm "$launch_dir/load_$image_name.sh"
-    sudo rm "$network_dir/tap_$image_name.sh"
-    sudo rm "$base_dir/vm/$image_name.img"
+
+    # Demander le nom de l'image de la VM à supprimer
+    read -p "Entrer le nom de l'image de la VM à supprimer : " image_name
+
+    # Vérification que le nom de l'image n'est pas vide
+    if [ -z "$image_name" ]; then
+        echo "Erreur : Aucun nom d'image fourni."
+        exit 1
+    fi
+
+    # Supprimer le script de lancement si il existe
+    if [ -f "$launch_dir/load_$image_name.sh" ]; then
+        sudo rm "$launch_dir/load_$image_name.sh"
+        echo "Le script de lancement $launch_dir/load_$image_name.sh a été supprimé."
+    else
+        echo "Avertissement : Le script de lancement $launch_dir/load_$image_name.sh n'existe pas."
+    fi
+
+    # Supprimer le script réseau si il existe
+    if [ -f "$network_dir/tap_$image_name.sh" ]; then
+        sudo rm "$network_dir/tap_$image_name.sh"
+        echo "Le script réseau $network_dir/tap_$image_name.sh a été supprimé."
+    else
+        echo "Avertissement : Le script réseau $network_dir/tap_$image_name.sh n'existe pas."
+    fi
+
+    # Supprimer le fichier image de la VM si il existe
+    if [ -f "$vm_dir/$image_name.img" ]; then
+        sudo rm "$vm_dir/$image_name.img"
+        echo "Le fichier image $vm_dir/$image_name.img a été supprimé."
+    else
+        echo "Avertissement : Le fichier image $vm_dir/$image_name.img n'existe pas."
+    fi
+
     echo "Suppression de la VM $image_name terminée."
-    exit
+    exit 0
 }
+
 
 # Fonction pour monitorer les VMs actives
 monitor_vm () {
