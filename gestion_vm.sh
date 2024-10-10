@@ -88,6 +88,16 @@ EOL
     exit
 }
 
+remove_vm () {
+    echo "Lancement de la suppression de la VM..."
+    image_name=$(whiptail --inputbox "Entrer le nom de l'image de la VM à supprimer :" 8 78 --title "Suppression de la VM" 3>&1 1>&2 2>&3)
+    sudo rm "$launch_dir/load_$image_name.sh"
+    sudo rm "$network_dir/tap_$image_name.sh"
+    sudo rm "$base_dir/vm/$image_name.img"
+    echo "Suppression de la VM $image_name terminée."
+    exit
+}
+
 # Fonction pour monitorer les VMs actives
 monitor_vm () {
 
