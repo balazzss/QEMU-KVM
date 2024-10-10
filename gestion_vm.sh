@@ -91,42 +91,52 @@ EOL
 }
 
 remove_vm () {
-    echo "Lancement de la suppression de la VM..."
+    RED='\033[0;31m'
+    NC='\033[0m'
+    
+    echo -e "Lancement de la suppression de la VM : "
+    echo -e "---------------------------------------"
 
     # Demander le nom de l'image de la VM à supprimer
-    read -p "Entrer le nom de l'image de la VM à supprimer : " image_name
+    read -p "Entrer le nom de la VM à supprimer : " image_name
 
     # Vérification que le nom de l'image n'est pas vide
     if [ -z "$image_name" ]; then
-        echo "Erreur : Aucun nom d'image fourni."
+        echo -e "${RED}Erreur : Aucun nom d'image fourni.${NC}"
         exit 1
     fi
 
     # Supprimer le script de lancement si il existe
     if [ -f "$launch_dir/load_$image_name.sh" ]; then
         sudo rm "$launch_dir/load_$image_name.sh"
-        echo "Le script de lancement $launch_dir/load_$image_name.sh a été supprimé."
+        echo -e "Le script de lancement $launch_dir/load_$image_name.sh a été supprimé."
+        echo -e "----------------------------------------------------------------------"
     else
-        echo "Avertissement : Le script de lancement $launch_dir/load_$image_name.sh n'existe pas."
+        echo -e "${RED}Avertissement : Le script de lancement $launch_dir/load_$image_name.sh n'existe pas.${NC}"
+        echo -e "----------------------------------------------------------------------"
     fi
 
     # Supprimer le script réseau si il existe
     if [ -f "$network_dir/tap_$image_name.sh" ]; then
         sudo rm "$network_dir/tap_$image_name.sh"
-        echo "Le script réseau $network_dir/tap_$image_name.sh a été supprimé."
+        echo -e "Le script réseau $network_dir/tap_$image_name.sh a été supprimé."
+        echo -e "----------------------------------------------------------------------"
     else
-        echo "Avertissement : Le script réseau $network_dir/tap_$image_name.sh n'existe pas."
+        echo -e "${RED}Avertissement : Le script réseau $network_dir/tap_$image_name.sh n'existe pas.${NC}"
+        echo -e "----------------------------------------------------------------------"
     fi
 
     # Supprimer le fichier image de la VM si il existe
     if [ -f "$vm_dir/$image_name.img" ]; then
         sudo rm "$vm_dir/$image_name.img"
-        echo "Le fichier image $vm_dir/$image_name.img a été supprimé."
+        echo -e "Le fichier image $vm_dir/$image_name.img a été supprimé."
+        echo -e "----------------------------------------------------------------------"
     else
-        echo "Avertissement : Le fichier image $vm_dir/$image_name.img n'existe pas."
+        echo -e "${RED}Avertissement : Le fichier image $vm_dir/$image_name.img n'existe pas.${NC}"
+        echo -e "----------------------------------------------------------------------"
     fi
 
-    echo "Suppression de la VM $image_name terminée."
+    echo -e "Suppression de la VM $image_name terminée."
     exit 0
 }
 
