@@ -15,12 +15,12 @@ Pour utiliser ce programme, vous avez deux choix:
 Une fois installé, il suffit de lancer:
 > gestion_vm -h
 Puis vous découvrirez les options:
-> -i  Installer une VM
-> -r Supprimer une VM
-> -m Lister les VM actives
-> -l Lister les interfaces tap actives
-> -t Lister les interfaces des vm même éteintes
-> -h Afficher cette aide
+-i  Installer une VM
+-r Supprimer une VM
+-m Lister les VM actives
+-l Lister les interfaces tap actives
+-t Lister les interfaces des vm même éteintes
+-h Afficher cette aide
 
 
 
