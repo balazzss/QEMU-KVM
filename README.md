@@ -5,4 +5,6 @@ To use this programm, you have 2 choice:
 
 ## 1) Download and install the install_gestion_vm.sh file ## 
 
+ jj
+
 ## 2) Use the gestion_vm.sh file ##
